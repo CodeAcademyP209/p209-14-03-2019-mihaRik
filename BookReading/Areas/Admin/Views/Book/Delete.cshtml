@@ -1,0 +1,52 @@
+﻿@model Book
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Are you sure, bae?</h2>
+
+<form method="post" enctype="multipart/form-data" style="margin-bottom: 20px;">
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.Id)
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Name)
+        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @disabled = "disabled" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Description)
+        @Html.TextBoxFor(m => m.Description, new { @class = "form-control", @disabled = "disabled" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.PageCount)
+        @Html.TextBoxFor(m => m.PageCount, new { @class = "form-control", @disabled = "disabled" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Authors)<br />
+        <div class="my-authors">
+            @foreach (var author in Model.Authors.ToList())
+            {
+                <div class="my-checkbox">
+                    <input type="checkbox" id="@author.Id" checked disabled name="Authors" value="@author.Id" />
+                    <label for="@author.Id">@author.Fullname</label>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Category.Name)
+        @Html.TextBoxFor(m => m.Category.Name, new { @class = "text-danger", @disabled = "disabled" })
+    </div>
+
+    <div class="form-group">
+        <label>Current image: </label>
+        <img src="~/Public/images/@Model.Image" width="200" class="img-thumbnail" />
+    </div>
+
+    <a href="/Admin/Book/Index" class="btn btn-primary">Back to list</a>
+    <input type="submit" value="Delete" class="btn btn-danger" />
+</form>

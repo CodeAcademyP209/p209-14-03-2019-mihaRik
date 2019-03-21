@@ -1,0 +1,13 @@
+﻿@model IEnumerable<Book>
+
+
+@foreach (var book in Model)
+{
+    <div class="col-lg-2 col-md-3 col-sm-4">
+        <div class="item">
+            <img src="~/Public/images/@book.Image">
+            <h3><a href="/Book/About/@book.Id">@book.Name</a></h3>
+            <h6><a href="/Book/About/@book.Id">Read Now</a></h6>
+        </div>
+    </div>
+}

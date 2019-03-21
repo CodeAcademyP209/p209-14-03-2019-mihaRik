@@ -1,0 +1,79 @@
+﻿@using BookReading.Extensions
+@model BookReading.Models.ViewModels.CreateBookViewModel
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Add book</h2>
+
+<form method="post" enctype="multipart/form-data" style="margin-bottom: 20px;">
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.Book.Id)
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Book.Name)
+        @Html.TextBoxFor(m => m.Book.Name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Book.Name, null, new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Book.Description)
+        @Html.TextAreaFor(m => m.Book.Description, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Book.Description, null, new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Book.PageCount)
+        @Html.TextBoxFor(m => m.Book.PageCount, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Book.PageCount, null, new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Authors)<br />
+        <div class="my-authors">
+            @foreach (var author in Model.Authors.ToList())
+            {
+                <div class="my-checkbox">
+                    <input type="checkbox" id="@author.Id" @(Model.Book.Authors.Any(a => a.Id == author.Id) ? "checked" : null) name="Authors" value="@author.Id" />
+                    <label for="@author.Id">@author.Fullname</label>
+                </div>
+            }
+        </div>
+        @Html.ValidationMessageFor(m => m.Authors, null, new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Categories)
+        <select name="Categories" class="form-control">
+            @foreach (var category in Model.Categories.ToList())
+            {
+                <option value="@category.Id" @(category == Model.Book.Category ? "selected" : null)>@category.Name</option>
+            }
+        </select>
+        @Html.ValidationMessageFor(m => m.Categories, null, new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        <label>Current image: </label>
+        <img src="~/Public/images/@Model.Book.Image" width="200" class="img-thumbnail" />
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Book.Photo)
+        @Html.TextBoxFor(m => m.Book.Photo, new { @class = "form-control", @type = "file", @accept = "image/*" })
+        @Html.ValidationMessageFor(m => m.Book.Photo, null, new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        <label>Current book: <ins>@Model.Book.Name</ins></label>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Book.BookFile)
+        @Html.TextBoxFor(m => m.Book.BookFile, new { @class = "form-control", @type = "file", @accept = "application/pdf" })
+        @Html.ValidationMessageFor(m => m.Book.BookFile, null, new { @class = "text-danger" })
+    </div>
+
+    <a href="/Admin/Book/Index" class="btn btn-primary">Back to list</a>
+    <input type="submit" value="Update" class="btn btn-primary" />
+</form>

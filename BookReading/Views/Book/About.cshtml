@@ -1,0 +1,54 @@
+﻿@model AboutBookViewModel
+@{
+    ViewBag.Title = "About";
+}
+
+<div class="breadcrumb">
+    <div class="container">
+        <a class="breadcrumb-item" href="/Home/Index">Home</a>
+        <span class="breadcrumb-item active">Books</span>
+    </div>
+</div>
+<section class="product-sec">
+    <div class="container">
+        <h1>@Model.Book.Name</h1>
+        <div class="row">
+            <div class="col-md-6 slider-sec">
+                <img src="/Public/images/@Model.Book.Image" class="img-fluid">
+            </div>
+            <div class="col-md-6 slider-content">
+                <p>@Model.Book.Description</p>
+                <ul>
+                    <li>
+                        <span class="name">Authors</span><span class="clm">:</span>
+                        @foreach (var author in Model.Book.Authors)
+                        {
+                            <span class="author">@author.Fullname </span>
+                        }
+                    </li>
+                    <li>
+                        <span class="name">Page count</span><span class="clm">:</span>
+                        <span class="author">@Model.Book.PageCount</span>
+                    </li>
+                    <li>
+                        <span class="name">Category</span><span class="clm">:</span>
+                        <span class="author final">@Model.Book.Category.Name</span>
+                    </li>
+                </ul>
+                <div class="btn-sec">
+                    <a href="~/Public/pdf/@Model.Book.BookPath" target="_blank" class="btn">Read Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="related-books">
+    <div class="container">
+        <h2>You may also like these book</h2>
+        <div class="recomended-sec">
+            <div class="row">
+                @Html.Partial("_RecommendedBooks",Model.RelatedBooks.Take(4).ToList())
+            </div>
+        </div>
+    </div>
+</section>
